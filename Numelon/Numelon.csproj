@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArtificialIncompetence.cs" />
+    <Compile Include="Human.cs" />
+    <Compile Include="IPrayer.cs" />
+    <Compile Include="NumelonFunction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
