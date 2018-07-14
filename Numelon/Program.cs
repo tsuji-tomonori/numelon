@@ -33,7 +33,7 @@ namespace Numelon
                 Console.WriteLine(a.getName()+" : "+ nf.ToString(call));
                 Console.WriteLine(a.getName() + " : " + nf.ToString(eatBite));
                 /*勝利したとき*/
-                if (eatBite[0] == 3)
+                if (eatBite[0] == a.getDigit())
                 {
                     winner = a.getName();
                     break;
@@ -45,7 +45,7 @@ namespace Numelon
                 Console.WriteLine(b.getName() + " : " + nf.ToString(call));
                 Console.WriteLine(b.getName() + " : " + nf.ToString(eatBite));
                 /*勝利したとき*/
-                if (eatBite[0] == 3)
+                if (eatBite[0] == a.getDigit())
                 {
                     winner = b.getName();
                     break;
