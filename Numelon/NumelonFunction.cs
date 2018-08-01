@@ -126,5 +126,126 @@ namespace Numelon
         {
             return (from <= a && a <= to);
         }
+
+        /// <summary>
+        ///  0プレースホルダーを作成する
+        /// </summary>
+        /// <param name="digit">プレースホルダーの桁数</param>
+        /// <returns>作成したプレースホルダー</returns>
+        private string createPlaceHolder(int digit)
+        {
+            string placeHolder = "";
+            for (int i = 0; i < digit; i++) { placeHolder += "0"; }
+            return placeHolder;
+        }
+
+        /// <summary>
+        /// 文字列をヌメロン値に変換する
+        /// 文字列の大きさの配列に1桁ずつ格納する
+        /// 文字列の内容確認はしない
+        /// </summary>
+        /// <param name="str">変換対象の文字列</param>
+        /// <returns>変換したヌメロン値</returns>
+        public int[] ToNumeloValue(String str)
+        {
+            int[] buf = new int[str.Length];
+            //変換対象文字列の大きさだけ
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (!int.TryParse(str[i].ToString(), out buf[i])) { Console.WriteLine("error: ToNumeloValue(String str)"); }
+            }
+            return buf;
+        }
+
+        /// <summary>
+        /// 整数値をヌメロン値に変換する
+        /// 変換するのは1以上(0は使用しないため変換できない)
+        /// 関数内でcreatePlaceHolder を呼び出す
+        /// </summary>
+        /// <param name="index">整数値(1以上)</param>
+        /// <param name="digit">桁数</param>
+        /// <returns>変換したヌメロン値</returns>
+        public int[] ToNumeloValue(int index, int digit)
+        {
+            string placeHolder = createPlaceHolder(digit);
+            string buf = index.ToString(placeHolder);
+            return ToNumeloValue(buf);
+
+        }
+
+        /// <summary>
+        /// 指定した桁数n に対して 10^n のbool配列を返す.
+        /// 初期化も行う.
+        /// indexをヌメロン値として扱う. 
+        /// trueはヌメロンに適した値, falseはヌメロンに適さなかった値.
+        /// [0]は必ずfalse (000はありえないから)
+        /// indexをヌメロン値に変換するにはToNumelonValue(int num, int digit)を用いる.
+        /// </summary>
+        /// <param name="digit">指定する桁数</param>
+        /// <returns>作成した配列</returns>
+        public bool[] creatList(int digit)
+        {
+            bool[] list = new bool[(int)Math.Pow(10, digit)];
+            list[0] = false;
+            for(int i = 0; i < list.Length; i++)
+            {
+                int[] buf = ToNumeloValue(i, digit);
+                if (IsNumelonValue(buf, digit)) list[i] = true;
+                else list[i] = false;
+            }
+            return list;
+        }
+
+        public void startGame()
+        {
+            /*宣言*/
+            int DIGIT = 3;
+            NumelonFunction nf = new NumelonFunction();
+            IPrayer a = new Human();
+            IPrayer b = new ArtificialIncompetence(DIGIT, "level0");
+            int[] eatBite = new int[2];
+            int[] call = new int[DIGIT];
+            string winner = "";
+
+            /*ゲーム開始前処理*/
+            a.Start();
+            b.Start();
+
+            Console.WriteLine("Game Start!!");
+
+            /*どちらかがゲームに勝利するまでループ*/
+            while (true)
+            {
+                /*Player a*/
+                call = a.Call(eatBite);
+                eatBite = b.Div(call);
+                Console.WriteLine(a.getName() + " : " + nf.ToString(call));
+                Console.WriteLine(a.getName() + " : " + nf.ToString(eatBite));
+                /*勝利したとき*/
+                if (eatBite[0] == DIGIT)
+                {
+                    winner = a.getName();
+                    break;
+                }
+
+                /*Player b*/
+                call = b.Call(eatBite);
+                eatBite = a.Div(call);
+                Console.WriteLine(b.getName() + " : " + nf.ToString(call));
+                Console.WriteLine(b.getName() + " : " + nf.ToString(eatBite));
+                /*勝利したとき*/
+                if (eatBite[0] == DIGIT)
+                {
+                    winner = b.getName();
+                    break;
+                }
+            }
+
+            Console.WriteLine("*************************************");
+            Console.WriteLine("winner is " + winner);
+        }
+
+        
+
     }
 }

@@ -10,50 +10,20 @@ namespace Numelon
     {
         static void Main(string[] args)
         {
-            /*宣言*/
+            int count = 0;
+            int digit = 3;
             NumelonFunction nf = new NumelonFunction();
-            IPrayer a = new Human();
-            IPrayer b = new ArtificialIncompetence(a.getDigit(), "com");
-            int[] eatBite = new int[2];
-            int[] call = new int[a.getDigit()];
-            string winner = "";
-
-            /*ゲーム開始前処理*/
-            a.Start();
-            b.Start();
-
-            Console.WriteLine("Game Start!!");
-            
-            /*どちらかがゲームに勝利するまでループ*/
-            while (true)
+            bool[] list = nf.creatList(digit);
+            for(int i = 0; i < list.Length; i++)
             {
-                /*Player a*/
-                call = a.Call(eatBite);
-                eatBite = b.Div(call);
-                Console.WriteLine(a.getName()+" : "+ nf.ToString(call));
-                Console.WriteLine(a.getName() + " : " + nf.ToString(eatBite));
-                /*勝利したとき*/
-                if (eatBite[0] == a.getDigit())
+                if (list[i])
                 {
-                    winner = a.getName();
-                    break;
-                }
-
-                /*Player b*/
-                call = b.Call(eatBite);
-                eatBite = a.Div(call);
-                Console.WriteLine(b.getName() + " : " + nf.ToString(call));
-                Console.WriteLine(b.getName() + " : " + nf.ToString(eatBite));
-                /*勝利したとき*/
-                if (eatBite[0] == a.getDigit())
-                {
-                    winner = b.getName();
-                    break;
+                    Console.WriteLine(nf.ToString(nf.ToNumeloValue(i, digit)));
+                    count++;
                 }
             }
-
-            Console.WriteLine("*************************************");
-            Console.WriteLine("winner is " + winner);
+            Console.WriteLine(count);
+            
         }
     }
 }
