@@ -196,6 +196,32 @@ namespace Numelon
             return list;
         }
 
+        /// <summary>
+        /// 質問とその判定を元に, 全パターン計算し起こりえないものfalseにしてリストを返す
+        /// </summary>
+        /// <param name="question">質問内容</param>
+        /// <param name="eatBite">質問内容の判定</param>
+        /// <param name="lst">判定結果を入れるリスト</param>
+        /// <param name="digit">質問内容の桁数</param>
+        /// <returns>処理したリスト</returns>
+        public bool[] deleteList(int[] question,int[] eatBite, bool[] list, int digit)
+        {
+            for (int i = 1; i < list.Length; i++)
+            {
+                //あり得る手の時
+                if (list[i])
+                {
+                    int[] buf = checkEatBite(question, ToNumeloValue(i, digit));
+                    //前回の判定結果より, あり得ない手だった場合
+                    if (!(eatBite[0] == buf[0] & eatBite[1] == buf[1]))
+                    {
+                        list[i] = false;
+                    }
+                }
+            }
+            return list;
+        }
+
         public void startGame()
         {
             /*宣言*/
