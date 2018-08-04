@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArtificialIncompetence.cs" />
+    <Compile Include="CPU1.cs" />
+    <Compile Include="CPU2.cs" />
     <Compile Include="Human.cs" />
     <Compile Include="IPrayer.cs" />
     <Compile Include="NumelonFunction.cs" />

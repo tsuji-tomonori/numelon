@@ -227,9 +227,13 @@ namespace Numelon
             /*宣言*/
             int DIGIT = 3;
             NumelonFunction nf = new NumelonFunction();
-            IPrayer a = new Human();
-            IPrayer b = new ArtificialIncompetence(DIGIT, "level0");
-            int[] eatBite = new int[2];
+            IPrayer a = new CPU1(DIGIT, "a");
+            IPrayer b = new CPU1(DIGIT, "b");
+            int[][] eatBite = new int[2][]
+            {
+                new[]{0,0},
+                new[]{0,0}
+            };
             int[] call = new int[DIGIT];
             string winner = "";
 
@@ -243,24 +247,24 @@ namespace Numelon
             while (true)
             {
                 /*Player a*/
-                call = a.Call(eatBite);
-                eatBite = b.Div(call);
+                a.Call(eatBite[0]).CopyTo(call,0);
+                b.Div(call).CopyTo(eatBite[0],0);
                 Console.WriteLine(a.getName() + " : " + nf.ToString(call));
-                Console.WriteLine(a.getName() + " : " + nf.ToString(eatBite));
+                Console.WriteLine(a.getName() + " : " + nf.ToString(eatBite[0]));
                 /*勝利したとき*/
-                if (eatBite[0] == DIGIT)
+                if (eatBite[0][0] == DIGIT)
                 {
                     winner = a.getName();
                     break;
                 }
 
                 /*Player b*/
-                call = b.Call(eatBite);
-                eatBite = a.Div(call);
+                b.Call(eatBite[1]).CopyTo(call,0);
+                a.Div(call).CopyTo(eatBite[1],0);
                 Console.WriteLine(b.getName() + " : " + nf.ToString(call));
-                Console.WriteLine(b.getName() + " : " + nf.ToString(eatBite));
+                Console.WriteLine(b.getName() + " : " + nf.ToString(eatBite[1]));
                 /*勝利したとき*/
-                if (eatBite[0] == DIGIT)
+                if (eatBite[1][0] == DIGIT)
                 {
                     winner = b.getName();
                     break;
@@ -271,7 +275,28 @@ namespace Numelon
             Console.WriteLine("winner is " + winner);
         }
 
-        
+        public string print(bool[] list, int digit, bool flag)
+        {
+            string str = "";
+            int count = 0;
+            for (int i = 0; i < list.Length; i++)
+            {
+                if (list[i])
+                {
+                    if (flag) { Console.WriteLine(ToString(ToNumeloValue(i, digit))); }
+                    str += ToString(ToNumeloValue(i, digit)) + "\n";
+                    count++;
+                }
+            }
+            if (flag) { Console.WriteLine(count); }
+            str += count + "\n";
+            if (flag) { Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"); }
+            str += "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
+
+            return str;
+        }
+
+
 
     }
 }

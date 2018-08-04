@@ -18,6 +18,7 @@ namespace Numelon
 
         static void Main(string[] args)
         {
+            /*
             bool[] list = nf.creatList(3);
             for(int i = 0; i < list.Length; i++)
             {
@@ -34,6 +35,8 @@ namespace Numelon
             Console.WriteLine("平均ターン数 : " + times / list.Length);
             Console.WriteLine("最大ターン数 : " + max);
             Console.WriteLine(maxValue);
+            */
+            nf.startGame();
         }
 
         private static void fileWrite(string str, int path)
