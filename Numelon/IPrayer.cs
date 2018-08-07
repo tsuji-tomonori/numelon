@@ -40,5 +40,11 @@ namespace Numelon
         /// <returns>名前</returns>
         string getName();
 
+        /// <summary>
+        /// 答えの取得
+        /// </summary>
+        /// <returns>答え</returns>
+        int[] getAns();
+
     }
 }

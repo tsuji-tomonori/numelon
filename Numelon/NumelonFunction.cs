@@ -222,10 +222,11 @@ namespace Numelon
             return list;
         }
 
-        public void startGame()
+        public int startGame()
         {
             /*宣言*/
             int DIGIT = 3;
+            int times = 0;
             NumelonFunction nf = new NumelonFunction();
             IPrayer a = new CPU1(DIGIT, "a");
             IPrayer b = new CPU1(DIGIT, "b");
@@ -246,6 +247,7 @@ namespace Numelon
             /*どちらかがゲームに勝利するまでループ*/
             while (true)
             {
+                times++;
                 /*Player a*/
                 a.Call(eatBite[0]).CopyTo(call,0);
                 b.Div(call).CopyTo(eatBite[0],0);
@@ -273,6 +275,7 @@ namespace Numelon
 
             Console.WriteLine("*************************************");
             Console.WriteLine("winner is " + winner);
+            return times;
         }
 
         public string print(bool[] list, int digit, bool flag)

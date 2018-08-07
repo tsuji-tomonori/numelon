@@ -86,6 +86,12 @@ namespace Numelon
         /// </summary>
         /// <returns>桁数</returns>
         public int getDigit() { return digit; }
+
+        /// <summary>
+        /// 答えの取得
+        /// </summary>
+        /// <returns>答え</returns>
+        public int[] getAns() { return answer; }
     }
 }
 
