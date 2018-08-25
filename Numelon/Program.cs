@@ -115,9 +115,6 @@ namespace Numelon
                         break;
                 }
             }
-
-
-
         }
 
         /// <summary>
@@ -154,6 +151,11 @@ namespace Numelon
             return buf;
         }
 
+        /// <summary>
+        /// ログファイルをファイルに出力する
+        /// ファイルパスがおかしいときは再度入力してもらう
+        /// </summary>
+        /// <param name="log">logの内容</param>
         private static void logWriteToFile(string log)
         {
             bool finflag = false;
@@ -174,16 +176,11 @@ namespace Numelon
                 {
                     Console.WriteLine("指定されたファイルは存在しません");
                 }
+                catch (DirectoryNotFoundException)
+                {
+                    Console.WriteLine("指定されたディレクトリが存在しません");
+                }
             }
-           
-            
-
         }
-
-        
-
-       
-
-        
     }
 }

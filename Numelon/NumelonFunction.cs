@@ -23,9 +23,9 @@ namespace Numelon
             bool finFlag = false;
             int count = 0;
             int[] num = new int[digit];
-            
+
             //初期化
-            for (int i = 0; i < numFlag.Length; i++){ numFlag[i] = true; }
+            for (int i = 0; i < numFlag.Length; i++) { numFlag[i] = true; }
 
             /*終了フラグが立っていない間以下の処理をループ*/
             while (!finFlag)
@@ -38,7 +38,7 @@ namespace Numelon
                     numFlag[rand] = false;
                     count++;
                     //指定された桁数まで数を作成したとき終了フラグを立てる
-                    if(count == digit) { finFlag = true; }
+                    if (count == digit) { finFlag = true; }
                 }
             }
             return num;
@@ -53,14 +53,14 @@ namespace Numelon
         public int[] checkEatBite(int[] question, int[] answer)
         {
             int[] eatBite = new int[2];
-            for(int i = 0; i < question.Length; i++)
+            for (int i = 0; i < question.Length; i++)
             {
-                for(int j = 0; j < answer.Length; j++)
+                for (int j = 0; j < answer.Length; j++)
                 {
-                    if(question[i] == answer[j])
+                    if (question[i] == answer[j])
                     {
                         //Eat
-                        if(i == j) { eatBite[0]++; }
+                        if (i == j) { eatBite[0]++; }
                         //Bite
                         else { eatBite[1]++; }
                     }
@@ -187,7 +187,7 @@ namespace Numelon
         {
             bool[] list = new bool[(int)Math.Pow(10, digit)];
             list[0] = false;
-            for(int i = 0; i < list.Length; i++)
+            for (int i = 0; i < list.Length; i++)
             {
                 int[] buf = ToNumeloValue(i, digit);
                 if (IsNumelonValue(buf, digit)) list[i] = true;
@@ -204,7 +204,7 @@ namespace Numelon
         /// <param name="lst">判定結果を入れるリスト</param>
         /// <param name="digit">質問内容の桁数</param>
         /// <returns>処理したリスト</returns>
-        public bool[] deleteList(int[] question,int[] eatBite, bool[] list, int digit)
+        public bool[] deleteList(int[] question, int[] eatBite, bool[] list, int digit)
         {
             for (int i = 1; i < list.Length; i++)
             {
@@ -261,8 +261,8 @@ namespace Numelon
             {
                 times++;
                 /*Player1*/
-                prayer1.Call(eatBite[0]).CopyTo(call,0);
-                prayer2.Div(call).CopyTo(eatBite[0],0);
+                prayer1.Call(eatBite[0]).CopyTo(call, 0);
+                prayer2.Div(call).CopyTo(eatBite[0], 0);
                 Console.WriteLine(prayer1.getName() + " : " + ToString(call));
                 Console.WriteLine(prayer1.getName() + " : " + ToString(eatBite[0]));
                 log += "(" + prayer1.getName() + ")の入力値 " + ToString(call) + "  " +
@@ -276,8 +276,8 @@ namespace Numelon
                 }
 
                 /*Player2*/
-                prayer2.Call(eatBite[1]).CopyTo(call,0);
-                prayer1.Div(call).CopyTo(eatBite[1],0);
+                prayer2.Call(eatBite[1]).CopyTo(call, 0);
+                prayer1.Div(call).CopyTo(eatBite[1], 0);
                 Console.WriteLine(prayer2.getName() + " : " + ToString(call));
                 Console.WriteLine(prayer2.getName() + " : " + ToString(eatBite[1]));
                 log += "(" + prayer2.getName() + ")の入力値 " + ToString(call) + "  " +
@@ -294,7 +294,7 @@ namespace Numelon
             Console.WriteLine("winner is " + winner);
             log += "++++++++++++++++++++++++++++++++++++++++++++++\n";
             log += winner + "の勝利  ターン数" + times + "\n";
-            
+
             return log;
         }
 
@@ -333,7 +333,7 @@ namespace Numelon
         /// <param name="str">ファイルに出力する内容</param>
         /// <param name="filePath">ファイルパス</param>
         /// <param name="fileName">ファイル名</param>
-        public void fileWrite(string str, string filePath , string fileName)
+        public void fileWrite(string str, string filePath, string fileName)
         {
             string file_path = System.IO.Path.Combine(@filePath + "\\" + fileName + ".txt");
             // ファイルへテキストデータを書き込み
@@ -343,8 +343,5 @@ namespace Numelon
                 sw.Write(str); // ファイルへテキストデータを出力する
             }
         }
-
-
-
     }
 }
