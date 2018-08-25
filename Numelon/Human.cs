@@ -19,10 +19,10 @@ namespace Numelon
         /// ユーザ名・桁数はコンソール上にて入力してもらう
         /// ScanNum, ScanDigitを使用
         /// </summary>
-        public Human()
+        public Human(int digit)
         {
             name = ScanName();
-            digit = ScanDigit();
+            this.digit = digit;
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Numelon
         /// </summary>
         public void Start()
         {
-            answer = ScanNum("自分の数を入力してください");
+            answer = ScanNum(name + "さんの数を入力してください");
             
         }
 
@@ -44,7 +44,7 @@ namespace Numelon
         /// <returns>手(コンソール上にて入力されたもの)</returns>
         public int[] Call(int[] eatBite)
         {
-            return ScanNum("予想する数を入力してください");
+            return ScanNum(name + "さん 予想する数を入力してください");
         }
 
         /// <summary>

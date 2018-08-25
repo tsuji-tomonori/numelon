@@ -14,7 +14,7 @@ namespace Numelon
         string bName = "";
         string maxValue = "";
         string log = "";
-        string PATH = "C:\\Users\\Owner\\Desktop\\log\\6\\";
+        string PATH = "C:\\Users\\Owner\\Desktop\\log\\7\\";
         int aWin = 0;
         int bWin = 0;
         int equal = 0;
@@ -66,8 +66,10 @@ namespace Numelon
             /*宣言*/
             int turn = 0;
             NumelonFunction nf = new NumelonFunction();
-            IPrayer a = new CPU1(digit, "a");
-            IPrayer b = new CPU1(digit, "b");
+            NumelonValueList nlv1 = new NumelonValueList(digit);
+            NumelonValueList nlv2 = new NumelonValueList(digit);
+            IPrayer a = new CPU2(digit, "2a",nlv1);
+            IPrayer b = new CPU2(digit, "2b",nlv2);
             int[][] eatBite = new int[2][]
             {
                 new[]{0,0},

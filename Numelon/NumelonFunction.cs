@@ -222,63 +222,90 @@ namespace Numelon
             return list;
         }
 
-        public int startGame()
+        /// <summary>
+        /// ゲーム処理
+        /// </summary>
+        /// <param name="digit"></param>
+        /// <param name="prayer1"></param>
+        /// <param name="prayer2"></param>
+        /// <returns></returns>
+        public string GameStart(int digit, IPrayer prayer1, IPrayer prayer2)
         {
+            /*エラーチェック*/
+            if (prayer1 == null || prayer2 == null)
+                throw new ArgumentNullException();
+
             /*宣言*/
-            int DIGIT = 3;
             int times = 0;
-            NumelonFunction nf = new NumelonFunction();
-            IPrayer a = new CPU1(DIGIT, "a");
-            IPrayer b = new CPU1(DIGIT, "b");
             int[][] eatBite = new int[2][]
             {
                 new[]{0,0},
                 new[]{0,0}
             };
-            int[] call = new int[DIGIT];
+            int[] call = new int[digit];
             string winner = "";
+            string log = "";
 
             /*ゲーム開始前処理*/
-            a.Start();
-            b.Start();
+            prayer1.Start();
+            prayer2.Start();
 
             Console.WriteLine("Game Start!!");
+
+            //各prayer の答えを含むため ゲーム開始前処理後に記述
+            log += prayer1.getName() + ": " + ToString(prayer1.getAns()) + "  " +
+                    prayer2.getName() + " : " + ToString(prayer2.getAns()) + "\n";
 
             /*どちらかがゲームに勝利するまでループ*/
             while (true)
             {
                 times++;
-                /*Player a*/
-                a.Call(eatBite[0]).CopyTo(call,0);
-                b.Div(call).CopyTo(eatBite[0],0);
-                Console.WriteLine(a.getName() + " : " + nf.ToString(call));
-                Console.WriteLine(a.getName() + " : " + nf.ToString(eatBite[0]));
+                /*Player1*/
+                prayer1.Call(eatBite[0]).CopyTo(call,0);
+                prayer2.Div(call).CopyTo(eatBite[0],0);
+                Console.WriteLine(prayer1.getName() + " : " + ToString(call));
+                Console.WriteLine(prayer1.getName() + " : " + ToString(eatBite[0]));
+                log += "(" + prayer1.getName() + ")の入力値 " + ToString(call) + "  " +
+                        "判定 " + ToString(eatBite[0]) + "  ";
                 /*勝利したとき*/
-                if (eatBite[0][0] == DIGIT)
+                if (eatBite[0][0] == digit)
                 {
-                    winner = a.getName();
+                    winner = prayer1.getName();
+                    log += "\n";
                     break;
                 }
 
-                /*Player b*/
-                b.Call(eatBite[1]).CopyTo(call,0);
-                a.Div(call).CopyTo(eatBite[1],0);
-                Console.WriteLine(b.getName() + " : " + nf.ToString(call));
-                Console.WriteLine(b.getName() + " : " + nf.ToString(eatBite[1]));
+                /*Player2*/
+                prayer2.Call(eatBite[1]).CopyTo(call,0);
+                prayer1.Div(call).CopyTo(eatBite[1],0);
+                Console.WriteLine(prayer2.getName() + " : " + ToString(call));
+                Console.WriteLine(prayer2.getName() + " : " + ToString(eatBite[1]));
+                log += "(" + prayer2.getName() + ")の入力値 " + ToString(call) + "  " +
+                        "判定 " + ToString(eatBite[1]) + "\n";
                 /*勝利したとき*/
-                if (eatBite[1][0] == DIGIT)
+                if (eatBite[1][0] == digit)
                 {
-                    winner = b.getName();
+                    winner = prayer2.getName();
                     break;
                 }
             }
 
             Console.WriteLine("*************************************");
             Console.WriteLine("winner is " + winner);
-            return times;
+            log += "++++++++++++++++++++++++++++++++++++++++++++++\n";
+            log += winner + "の勝利  ターン数" + times + "\n";
+            
+            return log;
         }
 
-        public string print(bool[] list, int digit, bool flag)
+        /// <summary>
+        /// 与えられたリストを文字列にして返す(表示する)
+        /// </summary>
+        /// <param name="list">表示するリスト</param>
+        /// <param name="digit">リストの桁数</param>
+        /// <param name="OF">OutputFlag(表示する場合はtrue)</param>
+        /// <returns>作成した文字列</returns>
+        public string print(bool[] list, int digit, bool OF)
         {
             string str = "";
             int count = 0;
@@ -286,17 +313,35 @@ namespace Numelon
             {
                 if (list[i])
                 {
-                    if (flag) { Console.WriteLine(ToString(ToNumeloValue(i, digit))); }
+                    if (OF) { Console.WriteLine(ToString(ToNumeloValue(i, digit))); }
                     str += ToString(ToNumeloValue(i, digit)) + "\n";
                     count++;
                 }
             }
-            if (flag) { Console.WriteLine(count); }
+            if (OF) { Console.WriteLine(count); }
             str += count + "\n";
-            if (flag) { Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"); }
+            if (OF) { Console.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"); }
             str += "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n";
 
             return str;
+        }
+
+        /// <summary>
+        /// txtファイルに出力する
+        /// UTF-8のテキスト用
+        /// </summary>
+        /// <param name="str">ファイルに出力する内容</param>
+        /// <param name="filePath">ファイルパス</param>
+        /// <param name="fileName">ファイル名</param>
+        public void fileWrite(string str, string filePath , string fileName)
+        {
+            string file_path = System.IO.Path.Combine(@filePath + "\\" + fileName + ".txt");
+            // ファイルへテキストデータを書き込み
+            using (System.IO.StreamWriter sw = new System.IO.StreamWriter(file_path))   // UTF-8のテキスト用
+                                                                                        //using (System.IO.StreamWriter sw = new System.IO.StreamWriter(file_path, Encoding.GetEncoding("shift-jis")))  // シフトJISのテキスト用
+            {
+                sw.Write(str); // ファイルへテキストデータを出力する
+            }
         }
 
 

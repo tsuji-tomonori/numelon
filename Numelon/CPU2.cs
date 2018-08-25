@@ -16,18 +16,22 @@ namespace Numelon
         private string name;
         private bool[] list;
         NumelonFunction nf = new NumelonFunction();
+        //関数の外で定義すること
+        Random rnd = new System.Random((int)DateTime.Now.Ticks);
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         /// <param name="digit">桁数</param>
         /// <param name="name">ユーザ名</param>
-        public CPU2(int digit, string name)
+        public CPU2(int digit, string name, NumelonValueList nvl)
         {
             this.digit = digit;
             this.name = name;
-            list = nf.creatList(digit);
+            list = nvl.getBasic();
+            pre = new int[digit];
         }
+
 
         /// <summary>
         /// ゲーム開始
@@ -35,7 +39,7 @@ namespace Numelon
         /// </summary>
         public void Start()
         {
-            answer = nf.CreateNum(digit);
+            answer = CreateNum(digit);
         }
 
         /// <summary>
@@ -45,21 +49,14 @@ namespace Numelon
         /// <returns>手(ランダム)</returns>
         public int[] Call(int[] eatBite)
         {
-            if (firstFlag)
+            if (!firstFlag) nf.deleteList(pre, eatBite, list, digit).CopyTo(list, 0);
+            for (int i = 0; i < list.Length; i++)
             {
-                pre = nf.CreateNum(3);
-                firstFlag = false;
-            }
-            else
-            {
-                list = nf.deleteList(pre, eatBite, list, digit);
-                for (int i = 0; i < list.Length; i++)
+                if (list[i])
                 {
-                    if (list[i])
-                    {
-                        pre = nf.ToNumeloValue(i, digit);
-                        break;
-                    }
+                    nf.ToNumeloValue(i, digit).CopyTo(pre, 0);
+                    if (firstFlag) firstFlag = false;
+                    break;
                 }
             }
             return pre;
@@ -73,6 +70,39 @@ namespace Numelon
         public int[] Div(int[] question)
         {
             return nf.checkEatBite(question, answer);
+        }
+
+        /// <summary>
+        /// 指定された桁数のヌメロンに適した数の作成
+        /// </summary>
+        /// <param name="digit">桁数 (正の整数値(1～9)/チェック未処理)</param>
+        /// <returns>作成した数</returns>
+        private int[] CreateNum(int digit)
+        {
+            /*宣言*/
+            bool[] numFlag = new bool[10];
+            bool finFlag = false;
+            int count = 0;
+            int[] num = new int[digit];
+
+            //初期化
+            for (int i = 0; i < numFlag.Length; i++) { numFlag[i] = true; }
+
+            /*終了フラグが立っていない間以下の処理をループ*/
+            while (!finFlag)
+            {
+                int rand = rnd.Next(10);
+                /*乱数が他の桁と重複しないとき以下の処理*/
+                if (numFlag[rand])
+                {
+                    num[count] = rand;
+                    numFlag[rand] = false;
+                    count++;
+                    //指定された桁数まで数を作成したとき終了フラグを立てる
+                    if (count == digit) { finFlag = true; }
+                }
+            }
+            return num;
         }
 
         /// <summary>
@@ -94,4 +124,3 @@ namespace Numelon
         public int[] getAns() { return answer; }
     }
 }
-
