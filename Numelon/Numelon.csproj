@@ -50,7 +50,9 @@
     <Compile Include="CPU1.cs" />
     <Compile Include="CPU2.cs" />
     <Compile Include="Human.cs" />
+    <Compile Include="IAction.cs" />
     <Compile Include="IPrayer.cs" />
+    <Compile Include="NumelonAction.cs" />
     <Compile Include="NumelonFunction.cs" />
     <Compile Include="NumelonValueList.cs" />
     <Compile Include="Program.cs" />

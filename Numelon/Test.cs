@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Numelon
 {
-    class Test
+    class Test : IAction
     {
         List<string> longList = new List<string>();
         int times = 0;
@@ -20,6 +20,11 @@ namespace Numelon
         int equal = 0;
         int max = 0;
         NumelonFunction nf = new NumelonFunction();
+
+        public void action()
+        {
+            Console.WriteLine("Test");
+        }
 
         /// <summary>
         /// ログレポートを排出

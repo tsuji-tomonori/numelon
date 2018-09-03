@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -341,6 +342,72 @@ namespace Numelon
                                                                                         //using (System.IO.StreamWriter sw = new System.IO.StreamWriter(file_path, Encoding.GetEncoding("shift-jis")))  // シフトJISのテキスト用
             {
                 sw.Write(str); // ファイルへテキストデータを出力する
+            }
+        }
+
+        /// <summary>
+        /// ユーザーから整数値を受け取る
+        /// ユーザーが適した整数値を入力するまで入力を促す
+        /// 整数値の範囲は min 以上 max 以下
+        /// </summary>
+        /// <param name="min">指定する範囲の最小値</param>
+        /// <param name="max">指定する範囲の最大値</param>
+        /// <returns>ユーザーが入力した数</returns>
+        public int scanNum(int min, int max)
+        {
+            /*宣言*/
+            bool finFlag = false;
+            int buf = 0;
+            NumelonFunction nf = new NumelonFunction();
+
+            //ユーザーが正しく入力するまでループ
+            while (!finFlag)
+            {
+                string str = Console.ReadLine();
+                //入力されたものが整数であるとき
+                if (int.TryParse(str, out buf))
+                {
+                    //入力された整数が指定された範囲内であるとき
+                    if (nf.IsRange(buf, min, max))
+                    {
+                        finFlag = true;
+                    }
+                }
+                //入力内容が正しくないとき
+                if (!finFlag) Console.WriteLine("入力内容に誤りがあります.再度入力してください.");
+            }
+            return buf;
+        }
+
+        /// <summary>
+        /// ログファイルをファイルに出力する
+        /// ファイルパスがおかしいときは再度入力してもらう
+        /// </summary>
+        /// <param name="log">logの内容</param>
+        public void logWriteToFile(string log)
+        {
+            bool finflag = false;
+            while (!finflag)
+            {
+                NumelonFunction nf = new NumelonFunction();
+                Console.Write("ファイルパスを入力してください : ");
+                string filePath = Console.ReadLine();
+                Console.WriteLine();
+                Console.Write("ファイル名を入力してください : ");
+                string fileName = Console.ReadLine();
+                try
+                {
+                    nf.fileWrite(log, filePath, fileName);
+                    finflag = true;
+                }
+                catch (FileNotFoundException)
+                {
+                    Console.WriteLine("指定されたファイルは存在しません");
+                }
+                catch (DirectoryNotFoundException)
+                {
+                    Console.WriteLine("指定されたディレクトリが存在しません");
+                }
             }
         }
     }
