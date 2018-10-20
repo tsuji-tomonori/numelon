@@ -268,6 +268,7 @@ namespace Numelon
                 Console.WriteLine(prayer1.getName() + " : " + ToString(eatBite[0]));
                 log += "(" + prayer1.getName() + ")の入力値 " + ToString(call) + "  " +
                         "判定 " + ToString(eatBite[0]) + "  ";
+
                 /*勝利したとき*/
                 if (eatBite[0][0] == digit)
                 {

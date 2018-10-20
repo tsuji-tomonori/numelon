@@ -14,22 +14,32 @@ namespace Numelon
         private int digit;
         private bool firstFlag = true;
         private string name;
-        private bool[] list;
         NumelonFunction nf = new NumelonFunction();
         //関数の外で定義すること
         Random rnd = new System.Random((int)DateTime.Now.Ticks);
+
+        private bool[] firstNum = new bool[10];
+        private bool[] secondNum = new bool[10];
+        private bool[] thirdNum = new bool[10];
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         /// <param name="digit">桁数</param>
         /// <param name="name">ユーザ名</param>
-        public CPU2(int digit, string name, NumelonValueList nvl)
+        public CPU2(int digit, string name)
         {
             this.digit = digit;
             this.name = name;
-            list = nvl.getBasic();
             pre = new int[digit];
+
+            for(int i = 0; i < 10; i++)
+            {
+                firstNum[i] = true;
+                secondNum[i] = true;
+                thirdNum[i] = true;
+            }
+            
         }
 
 
@@ -49,16 +59,8 @@ namespace Numelon
         /// <returns>手(ランダム)</returns>
         public int[] Call(int[] eatBite)
         {
-            if (!firstFlag) nf.deleteList(pre, eatBite, list, digit).CopyTo(list, 0);
-            for (int i = 0; i < list.Length; i++)
-            {
-                if (list[i])
-                {
-                    nf.ToNumeloValue(i, digit).CopyTo(pre, 0);
-                    if (firstFlag) firstFlag = false;
-                    break;
-                }
-            }
+            
+           
             return pre;
         }
 
@@ -104,6 +106,7 @@ namespace Numelon
             }
             return num;
         }
+
 
         /// <summary>
         /// ユーザ名の取得
